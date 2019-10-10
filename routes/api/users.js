@@ -1,10 +1,12 @@
 const express = require('express');
 const router = express.Router();
 const gravatar = require('gravatar');
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
-const { check, validationResult } = require('express-validator/check');
+const { check, validationResult } = require('express-validator');
 
-const user = require('../models/User');
+const User = require('../models/User');
 
 /*
   @route         GET api/users
@@ -31,24 +33,41 @@ async (req, res) => {
     if (user){
       res.status(400).json({ errors: [{ msg: 'User already exists'}]})
     }
+
+    // get the gravatar, but if not having one use mm
+    const avatar = gravatar.url(email, {
+      s: '200',
+      r: 'pg',
+      d: 'mm'
+    })
+
+    user = new User({
+      name,
+      email,
+      avatar,
+      password
+    })
+
+      // encrypt password
+
+  const salt = await bcrypt.genSalt(10);
+
+  user.password = await bcrypt.hash(password, salt);
+
+  // everything which returns a promise use await in front of it
+
+  await user.save();
+
   } catch(err) {
     console.log(err.message);
     res.status(500).send('Server error');
-
   }
 
-  // check if user exists
-
-
-
-  // get user gravatar
-
-  // encrypt password
 
   // return json web token
 
 
-  res.send('User route');
+  res.send('User registered');
 });
 
 module.exports = router;
