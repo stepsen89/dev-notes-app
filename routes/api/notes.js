@@ -7,6 +7,6 @@ const router = express.Router();
   @access        public
 */
 
-router.get('/', (req, res) => res.send);
+router.get('/', (req, res) => res.send('User route'));
 
 module.exports = router;
