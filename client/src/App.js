@@ -4,6 +4,9 @@ import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
 import SignUp from "./components/auth/SignUp";
 import LogIn from "./components/auth/LogIn";
+
+import Alert from "./components/layout/Alert";
+
 import "./App.css";
 
 // redux
@@ -18,6 +21,7 @@ const App = () => (
         <Navbar />
         <Route exact path="/" component={Landing} />
         <section className="container">
+          <Alert />
           <Switch>
             <Route exact path="/signup" component={SignUp} />
             <Route exact path="/login" component={LogIn} />
