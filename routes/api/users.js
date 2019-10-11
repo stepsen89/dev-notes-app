@@ -34,6 +34,7 @@ router.post(
     }
 
     const { name, email, password } = req.body;
+    console.log("here");
 
     try {
       let user = await User.findOne({ email });
@@ -57,6 +58,8 @@ router.post(
         avatar,
         password
       });
+
+      console.log("I am here");
 
       // encrypt password
 
