@@ -1,0 +1,68 @@
+use strict
+
+strict mode makes debugging easier
+
+enabling via 'use strict' string at the top of every javascript
+
+it is possible to enable stricte mode only for parts of your code for example
+inside a function
+
+without strict mode you could create a variable without declaring it, the variable will be created globally
+why is that bad? 
+
+in case you create a variable with a name and not having strict mode enabled you could accidentally have
+a spelling mistake and create a new variable instead of assigning a new value. with use strict you would be able to see
+a reference error if not declaring.
+
+e.g.
+
+var value = 10;
+valeu = 12      // this one would create a new global variable !!!! so that's why use strict
+
+use strict also restricts you using any keywords which are being used by javascript future versions
+
+var let = 1 // would be valid without strict mode
+            // with strict mode it will throw an uncaught SyntaxError: unexpected strict mode reserved word
+
+            strict mode also doesn't let you delete variables or functions with the delete keyword, or even
+            arguments inside functions
+
+also not possible to use eval
+
+
+does javascript pass variables by reference or by value?
+
+var a;
+function foo(a){
+  // ? primitive types: strings, numbers, boolean: value
+  // ? objects are passed by reference
+
+  // ?? passed by reference - it points to something, opposite to passing by value it will change the outer scope object
+        if you modify it inside a function, but you can not change what it points too, only properties inside
+        this object
+        for example: 
+
+    var a = {"foo":"bar"};
+    function foo(a){
+      a = {"bar":"foo"};
+    }
+    foo(a);
+    console.log(a) -> this will still print {"foo":"bar"} 
+
+  // ?? passed by value: if you pass a value and change the value inside a function it won't change the outer variable
+        it will pass a copy of a not the actual variable
+}
+
+
+what are different types of javascript?
+
+primitive: boolean, number, string, null, undefined
+non primitive: object
+
+typeof returns the typeof
+
+dynamically typed
+the type of var a = 'foo' will be infered
+
+static typed like JAVA you have to specify what type each variable will hold
+String a = 'moo'
