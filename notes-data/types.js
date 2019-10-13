@@ -55,3 +55,21 @@ false == 'false' // false because it is not trying to convert the boolean to a S
 // Boolean('false') would return true
 
 // https://dorey.github.io/JavaScript-Equality-Table/
+
+// strict operator === should be used
+// non strict operator should not be used since the behavior is not consistent
+
+// -----------------------------------------------------------------------------------
+
+typeof(NaN) // number
+"abc"/5 // NaN
+
+isNaN(1) // false
+isNaN('1') // false
+isNaN(isNaN) // true
+isNaN('A') // true
+
+// the parameter we pass in will be coerced (Number())
+
+// trick in JavaScript
+// the only water proof version to check if something is not a number is 
