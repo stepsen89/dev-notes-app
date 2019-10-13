@@ -124,3 +124,83 @@ otherThingDeclaration();
 
 // we usually don't want to set global variable so wrapping up every function like that is a good way
 // we don't want to create global or sudo global
+
+// function closures
+
+("use strict");
+
+function myHelloFunction(name) {
+  var greeting = "Hello " + name;
+  console.log(greeting);
+}
+
+myHelloFunction("Stephanie");
+
+// rewritten
+
+("use strict");
+
+function myHelloFunction(name) {
+  var greeting = "Hello " + name;
+  return function() {
+    console.log(greeting);
+  };
+}
+
+myHelloFunction("Stephanie")(); // the () will call the returned function
+
+// another way:
+
+var greetStephanie = myHelloFunction("Stephanie");
+
+// this will be a function and to be called use this:
+
+greetStephanie();
+
+// when function returns a function keeps a reference
+// special set of reference to variables that a function needs
+
+// closures can refer to variables in outer scopes
+// example for interview coding examples:
+
+var foo = [];
+for (let i = 0; i < 10; i++) {
+  foo[i] = function() {
+    return i;
+  };
+}
+console.log(foo[0]()); // 10
+console.log(foo[1]()); // 10
+console.log(foo[2]()); // 10
+
+// why does it contain 10 instead of 1, 2, 3?
+
+// when the closure is created it doesn't get a copy of i, it points to the actual value of i
+// closure points to the current value of a variable
+
+var foo = [];
+for (let i = 0; i < 10; i++) {
+  (function() {
+    let y = i;
+    foo[i] = function() {
+      return y;
+    };
+  })();
+}
+console.log(foo[0]()); // 10
+console.log(foo[1]()); // 10
+console.log(foo[2]()); // 10
+
+// cleaner way for this
+
+var foo = [];
+for (let i = 0; i < 10; i++) {
+  (function(y) {
+    foo[y] = function() {
+      return y;
+    };
+  })(i);
+}
+console.log(foo[0]()); // 10
+console.log(foo[1]()); // 10
+console.log(foo[2]()); // 10
