@@ -73,3 +73,10 @@ isNaN('A') // true
 
 // trick in JavaScript
 // the only water proof version to check if something is not a number is 
+
+var a = NaN // undefined
+a !== a // true
+a = 1 
+a !== a // false
+a = 'a'
+a !== a // false
