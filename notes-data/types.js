@@ -28,3 +28,30 @@ String a = 'moo'
 // null == undefined will return true (the value)
 
 
+
+// difference between == and ===
+
+0 === 0 // true
+0 !== 1 // true
+0 == 0 // true
+0 != 1 // true
+
+'' == '0' // false - the string is not equal
+
+0 == '' // true
+
+0 == '0' // true
+0 === '' // false
+0 === '0' // false
+
+// === will just return true if both value and type are the same
+
+0 == '0' // true
+// this is because JavaScript will try to convert the number to a String 
+// and then compare them
+// type coersion is the name for it
+
+false == 'false' // false because it is not trying to convert the boolean to a String
+// Boolean('false') would return true
+
+// https://dorey.github.io/JavaScript-Equality-Table/
