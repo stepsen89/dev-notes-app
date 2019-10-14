@@ -204,3 +204,10 @@ for (let i = 0; i < 10; i++) {
 console.log(foo[0]()); // 10
 console.log(foo[1]()); // 10
 console.log(foo[2]()); // 10
+// detailed information needed for:
+
+console.log(
+  (function f(n) {
+    return n > 1 ? n * f(n - 1) : n;
+  })(4)
+);
