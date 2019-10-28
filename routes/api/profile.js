@@ -238,4 +238,37 @@ router.put(
   }
 );
 
+// @todo create route to update an experience
+
+/*
+  @route         DELETE api/profile/experience/:expid
+  @description   delete experience from profile
+  @auth          private
+*/
+
+router.delete("/experience/:exp_id", auth, async (req, res) => {
+  try {
+    // remove profile
+    await Profile.findOneAndRemove({
+      user: req.user.id
+    });
+
+    const removeIndex = profile.experience
+      .map(item => item.id)
+      .indexOf(req.params.exp_id);
+
+    profile.experience.splice(removeIndex, 1);
+
+    await profile.save();
+
+    res.json({ msg: "User removed" });
+  } catch (err) {
+    console.log(err.message);
+    if (err.kind === "ObjectId") {
+      return res.status(400).json({ msg: "Profile not found" });
+    }
+    res.status(500).send("Server Error");
+  }
+});
+
 module.exports = router;
