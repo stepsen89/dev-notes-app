@@ -1,26 +1,30 @@
 const express = require("express");
 const router = express.Router();
-
 const auth = require("../../middleware/auth");
+
+const { check, validationResult } = require("express-validator/check");
 
 const Profile = require("../../models/Profile");
 const User = require("../../models/User");
 
 /*
   @route         GET api/profile/me
-  @description   get profile
-  @access        private
+  @description   get your own profile
+  @auth          private
 */
 
+// using auth to protect the route
 router.get("/me", auth, async (req, res) => {
   try {
     const profile = await Profile.findOne({ user: req.user.id }).populate(
       "user",
       ["name", "avatar"]
     );
-
+    // if there is no profile return not found error
     if (!profile) {
-      return res.status(400).json({ msg: "There is no profile for this user" });
+      return res
+        .status(400)
+        .json({ msg: "We don't have a user with this profile" });
     }
   } catch (err) {
     console.log(err.message);
@@ -65,7 +69,6 @@ router.post(
       linkedin
     } = req.body;
 
-    // Build profile object
     const profileFields = {};
     profileFields.user = req.user.id;
     if (company) profileFields.company = company;
@@ -78,7 +81,6 @@ router.post(
       profileFields.skills = skills.split(",").map(skill => skill.trim());
     }
 
-    // Build social object
     profileFields.social = {};
     if (youtube) profileFields.social.youtube = youtube;
     if (twitter) profileFields.social.twitter = twitter;
@@ -87,7 +89,6 @@ router.post(
     if (instagram) profileFields.social.instagram = instagram;
 
     try {
-      // Using upsert option (creates new doc if no match is found):
       let profile = await Profile.findOneAndUpdate(
         { user: req.user.id },
         { $set: profileFields },
