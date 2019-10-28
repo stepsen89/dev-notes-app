@@ -102,9 +102,40 @@ router.post(
   }
 );
 
+/*
+  @route         GET api/profile
+  @description   get all profiles
+  @auth          public
+*/
+
 router.get("/", async (req, res) => {
   try {
-    const profiles = await Profile.find().populate("user", ["name", "avatar"]);
+    const profiles = await Profile.find()
+      .select("company")
+      .populate("user", ["name", "avatar"]);
+    res.json(profiles);
+  } catch (err) {
+    console.log(err.message);
+    res.status(500).send("Server Error");
+  }
+});
+
+/*
+  @route         GET api/profile/user/:id
+  @description   get user profile by id
+  @auth          public
+*/
+
+router.get("/user/:user_id", async (req, res) => {
+  try {
+    const profile = await Profile.findOne({
+      user: req.params.user_id
+    }).populate("user", ["name", "avatar"]);
+
+    if (!user) {
+      return res.status(400).json({ msg: "There is no profile with that id" });
+    }
+
     res.json(profiles);
   } catch (err) {
     console.log(err.message);
