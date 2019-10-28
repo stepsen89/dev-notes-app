@@ -249,7 +249,7 @@ router.put(
 router.delete("/experience/:exp_id", auth, async (req, res) => {
   try {
     // remove profile
-    await Profile.findOneAndRemove({
+    await Profile.findOne({
       user: req.user.id
     });
 
