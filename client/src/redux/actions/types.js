@@ -11,3 +11,6 @@ export const USER_LOADED = "USER_LOADED";
 export const AUTH_ERROR = "AUTH_ERROR";
 
 export const LOGOUT = "LOGOUT";
+
+export const GET_PROFILE_SUCCESS = "GET_PROFILE_SUCCESS";
+export const GET_PROFILE_ERROR = "GET_PROFILE_ERROR";
