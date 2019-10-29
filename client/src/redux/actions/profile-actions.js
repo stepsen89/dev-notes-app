@@ -1,6 +1,4 @@
 import axios from "axios";
-import { setAlert } from "./alert";
-
 import { GET_PROFILE_SUCCESS, GET_PROFILE_ERROR } from "./types";
 
 // get current users profile
