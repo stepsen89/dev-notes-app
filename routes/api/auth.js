@@ -37,7 +37,6 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
-    console.log(errors);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -46,14 +45,12 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
-      console.log(user);
 
       if (!user) {
         res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
-      console.log(isMatch);
 
       if (!isMatch) {
         res.status(400).json({ errors: [{ msg: "PW dont match" }] });
@@ -85,8 +82,6 @@ router.post(
         { expiresIn: 3600000000 },
         (err, token) => {
           if (err) throw err;
-          // console.log(token);
-          console.log(err);
           res.json({ token });
         }
       );
