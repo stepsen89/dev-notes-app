@@ -22,6 +22,8 @@ if (localStorage.token) {
 
 const App = () => {
   useEffect(() => {
+    console.log("I am here");
+    console.log(localStorage.token);
     store.dispatch(loadUser());
   }, []);
 

@@ -21,7 +21,6 @@ router.get("/", auth, async (req, res) => {
     console.log(err);
     res.status(500).send("Server Error");
   }
-  res.send("User route");
 });
 
 /*
@@ -38,6 +37,7 @@ router.post(
   ],
   async (req, res) => {
     const errors = validationResult(req);
+    console.log(errors);
     if (!errors.isEmpty()) {
       return res.status(400).json({ errors: errors.array() });
     }
@@ -46,15 +46,17 @@ router.post(
 
     try {
       let user = await User.findOne({ email });
+      console.log(user);
 
-      if (user) {
+      if (!user) {
         res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
       }
 
       const isMatch = await bcrypt.compare(password, user.password);
+      console.log(isMatch);
 
       if (!isMatch) {
-        res.status(400).json({ errors: [{ msg: "Invalid Credentials" }] });
+        res.status(400).json({ errors: [{ msg: "PW dont match" }] });
       }
 
       // it is a good idea to have the same error message due to security issues
@@ -75,15 +77,16 @@ router.post(
         }
       };
 
-      console.log(config.get("jwtToken"));
+      // console.log("jwt", config.get("jwtToken"));
 
       jwt.sign(
         payload,
         config.get("jwtToken"),
-        { expiresIn: 360000 },
+        { expiresIn: 3600000000 },
         (err, token) => {
           if (err) throw err;
-          console.log(token);
+          // console.log(token);
+          console.log(err);
           res.json({ token });
         }
       );
