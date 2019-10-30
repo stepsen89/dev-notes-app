@@ -74,12 +74,10 @@ router.post(
         }
       };
 
-      // console.log("jwt", config.get("jwtToken"));
-
       jwt.sign(
         payload,
         config.get("jwtToken"),
-        { expiresIn: 3600000000 },
+        { expiresIn: 36000 },
         (err, token) => {
           if (err) throw err;
           res.json({ token });
